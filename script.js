@@ -90,7 +90,7 @@ const riddles = [
 
 
 let currentRiddleIndex = 0;
-
+  
 const riddleText = document.getElementById('riddle-text');
 const riddleImage = document.getElementById('riddle-image');
 const answerInput = document.getElementById('answer-input');
@@ -99,42 +99,45 @@ const resultText = document.getElementById('result-text');
 const nextButton = document.getElementById('next-riddle');
 
 function displayRiddle() {
-    const currentRiddle = riddles[currentRiddleIndex];
-    riddleText.textContent = currentRiddle.question;
-    resultText.textContent = '';
-    answerInput.value = '';
-    
-    if (currentRiddle.image) {
-        riddleImage.src = currentRiddle.image;
-        riddleImage.style.display = 'block';
-    } else {
-        riddleImage.style.display = 'none';
-    }
+  const currentRiddle = riddles[currentRiddleIndex];
+  riddleText.textContent = currentRiddle.question;
+  resultText.textContent = '';
+  answerInput.value = '';
+  
+  if (currentRiddle.image) {
+    riddleImage.src = currentRiddle.image;
+    riddleImage.style.display = 'block';
+  } else {
+    riddleImage.style.display = 'none';
+  }
 
-    nextButton.style.display = 'none';
+  nextButton.style.display = 'none';
 }
 
 function checkAnswer() {
-    const userAnswer = answerInput.value.trim().toLowerCase();
-    const correctAnswer = riddles[currentRiddleIndex].answer.toLowerCase();
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  const correctAnswer = riddles[currentRiddleIndex].answer.toLowerCase();
 
-    if (userAnswer === correctAnswer) {
-        resultText.textContent = 'Correct! Well done!';
-        nextButton.style.display = 'block';
-    } else {
-        resultText.textContent = 'Oops! Try again.';
-    }
+  if (userAnswer === correctAnswer) {
+    resultText.textContent = 'Correct! Well done!';
+    resultText.style.color = '#4caf50'; // Green color for correct answer
+    nextButton.style.display = 'block';
+  } else {
+    resultText.textContent = 'Oops! Try again.';
+    resultText.style.color = '#f44336'; // Red color for incorrect answer
+  }
 }
 
 function nextRiddle() {
-    currentRiddleIndex++;
-    if (currentRiddleIndex < riddles.length) {
-        displayRiddle();
-    } else {
-        riddleText.textContent = 'Congratulations! You have completed all riddles.';
-        answerInput.style.display = 'none';
-        submitButton.style.display = 'none';
-    }
+  currentRiddleIndex++;
+  if (currentRiddleIndex < riddles.length) {
+    displayRiddle();
+  } else {
+    riddleText.textContent = 'Congratulations! You have completed all riddles.';
+    answerInput.style.display = 'none';
+    submitButton.style.display = 'none';
+    nextButton.style.display = 'none';
+  }
 }
 
 submitButton.addEventListener('click', checkAnswer);
