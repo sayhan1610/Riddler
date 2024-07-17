@@ -12,7 +12,9 @@
       <div id="riddle-box">
         <div id="riddle-content">
           <p id="riddle-text">Riddle goes here...</p>
-          <img src="" alt="Riddle Image" id="riddle-image" />
+          <div id="image-container">
+            <img src="" alt="Riddle Image" id="riddle-image" />
+          </div>
         </div>
         <input type="text" id="answer-input" placeholder="Your answer" />
         <button id="submit-answer">Submit</button>
@@ -21,6 +23,8 @@
         <p id="result-text"></p>
         <button id="next-riddle" style="display: none">Next Riddle</button>
       </div>
+      <audio id="correct-sound" src="/audio/correct.mp3"></audio>
+      <audio id="wrong-sound" src="/audio/wrong.mp3"></audio>
     </div>
 
     <script src="script.js"></script>

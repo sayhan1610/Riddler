@@ -6,7 +6,7 @@ const riddles = [
     },
     {
         question: "The more you take, the more you leave behind. What am I?",
-        answer: "footsteps",
+        answer: "footstep",
         image: "images/footsteps.avif"
     },
     {
@@ -87,51 +87,60 @@ const riddles = [
     // Add more unique riddles as needed
 ];
 
-
-
 let currentRiddleIndex = 0;
-  
+
 const riddleText = document.getElementById('riddle-text');
 const riddleImage = document.getElementById('riddle-image');
 const answerInput = document.getElementById('answer-input');
 const submitButton = document.getElementById('submit-answer');
 const resultText = document.getElementById('result-text');
 const nextButton = document.getElementById('next-riddle');
+const correctSound = document.getElementById('correct-sound');
+const wrongSound = document.getElementById('wrong-sound');
 
 function displayRiddle() {
   const currentRiddle = riddles[currentRiddleIndex];
   riddleText.textContent = currentRiddle.question;
   resultText.textContent = '';
   answerInput.value = '';
-  
+
   if (currentRiddle.image) {
     riddleImage.src = currentRiddle.image;
-    riddleImage.style.display = 'block';
+    riddleImage.alt = 'Riddle Image'; // Ensure alt text for accessibility
+    document.getElementById('image-container').style.display = 'block'; // Show image container
+    document.getElementById('image-container').style.marginTop = '20px';
+    document.getElementById('image-container').style.marginBottom = '20px';
+    document.getElementById('image-container').style.height = '70%';
+    document.getElementById('image-container').style.width = '100%';
   } else {
-    riddleImage.style.display = 'none';
+    document.getElementById('image-container').style.display = 'none'; // Hide image container if no image
   }
-
-  nextButton.style.display = 'none';
 }
 
-function checkAnswer() {
-  const userAnswer = answerInput.value.trim().toLowerCase();
-  const correctAnswer = riddles[currentRiddleIndex].answer.toLowerCase();
 
-  if (userAnswer === correctAnswer) {
-    resultText.textContent = 'Correct! Well done!';
-    resultText.style.color = '#4caf50'; // Green color for correct answer
-    nextButton.style.display = 'block';
-  } else {
-    resultText.textContent = 'Oops! Try again.';
-    resultText.style.color = '#f44336'; // Red color for incorrect answer
-  }
+
+
+function checkAnswer() {
+const userAnswer = answerInput.value.trim().toLowerCase();
+const correctAnswer = riddles[currentRiddleIndex].answer.toLowerCase();
+
+if (userAnswer === correctAnswer || userAnswer === correctAnswer + 's') { // Allow plural form as well
+  resultText.textContent = 'Correct! Well done!';
+  resultText.style.color = '#4caf50'; // Green color for correct answer
+  correctSound.play();
+  nextButton.style.display = 'block';
+} else {
+  resultText.textContent = 'Oops! Try again.';
+  resultText.style.color = '#f44336'; // Red color for incorrect answer
+  wrongSound.play();
+}
 }
 
 function nextRiddle() {
   currentRiddleIndex++;
   if (currentRiddleIndex < riddles.length) {
     displayRiddle();
+    nextButton.style.display = 'none'; // Hide next button after displaying next riddle
   } else {
     riddleText.textContent = 'Congratulations! You have completed all riddles.';
     answerInput.style.display = 'none';
@@ -145,3 +154,22 @@ nextButton.addEventListener('click', nextRiddle);
 
 // Start the game
 displayRiddle();
+
+function playAudioOnClick() {
+  // Create an audio element
+  var audio = new Audio('audio/quiz1.mp3');
+  
+  // Set the volume to 70%
+  audio.volume = 0.5;
+  
+  // Function to play audio
+  function playAudio() {
+      audio.play();
+  }
+  
+  // Add a click event listener to the document
+  document.addEventListener('click', playAudio);
+}
+
+// Call the function to enable audio playback on click
+playAudioOnClick();
