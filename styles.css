@@ -162,6 +162,21 @@ h1 {
   animation: scaleBackground 10s linear infinite;
 }
 
+#score-box {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#score-text {
+  font-size: 1.5em;
+  margin: 0;
+  color: #333;
+}
+
 @keyframes moveBackground {
   0% {
     background-position: 0 0;

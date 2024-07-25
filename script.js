@@ -1,5 +1,6 @@
 let riddles = [];
 let currentRiddleIndex = 0;
+let score = 0; // Initialize score
 
 const riddleText = document.getElementById('riddle-text');
 const riddleImage = document.getElementById('riddle-image');
@@ -9,6 +10,7 @@ const resultText = document.getElementById('result-text');
 const nextButton = document.getElementById('next-riddle');
 const correctSound = document.getElementById('correct-sound');
 const wrongSound = document.getElementById('wrong-sound');
+const scoreText = document.getElementById('score-text'); // Score element
 
 async function loadRiddles() {
   try {
@@ -28,35 +30,33 @@ skipButton.addEventListener('click', () => {
   nextRiddle(); // Load the next riddle
 });
 
-
 function displayRiddle() {
-    const currentRiddle = riddles[currentRiddleIndex];
-    if (!currentRiddle) {
-      riddleText.textContent = 'No riddles available.';
-      return;
-    }
-  
-    riddleText.textContent = currentRiddle.question;
-    resultText.textContent = '';
-    answerInput.value = '';
-  
-    // Show skip button and submit button
-    submitButton.style.display = 'inline-block';
-    skipButton.style.display = 'inline-block';
-  
-    if (currentRiddle.image) {
-      riddleImage.src = currentRiddle.image;
-      riddleImage.alt = 'Riddle Image'; // Ensure alt text for accessibility
-      document.getElementById('image-container').style.display = 'block'; // Show image container
-      document.getElementById('image-container').style.marginTop = '20px';
-      document.getElementById('image-container').style.marginBottom = '20px';
-      document.getElementById('image-container').style.height = '70%';
-      document.getElementById('image-container').style.width = '100%';
-    } else {
-      document.getElementById('image-container').style.display = 'none'; // Hide image container if no image
-    }
+  const currentRiddle = riddles[currentRiddleIndex];
+  if (!currentRiddle) {
+    riddleText.textContent = 'No riddles available.';
+    return;
   }
-  
+
+  riddleText.textContent = currentRiddle.question;
+  resultText.textContent = '';
+  answerInput.value = '';
+
+  // Show skip button and submit button
+  submitButton.style.display = 'inline-block';
+  skipButton.style.display = 'inline-block';
+
+  if (currentRiddle.image) {
+    riddleImage.src = currentRiddle.image;
+    riddleImage.alt = 'Riddle Image'; // Ensure alt text for accessibility
+    document.getElementById('image-container').style.display = 'block'; // Show image container
+    document.getElementById('image-container').style.marginTop = '20px';
+    document.getElementById('image-container').style.marginBottom = '20px';
+    document.getElementById('image-container').style.height = '70%';
+    document.getElementById('image-container').style.width = '100%';
+  } else {
+    document.getElementById('image-container').style.display = 'none'; // Hide image container if no image
+  }
+}
 
 function checkAnswer() {
   const userAnswer = answerInput.value.trim().toLowerCase();
@@ -66,6 +66,8 @@ function checkAnswer() {
     resultText.textContent = 'Correct! Well done!';
     resultText.style.color = '#4caf50'; // Green color for correct answer
     correctSound.play();
+    score++; // Increment score
+    updateScore(); // Update score display
     nextButton.style.display = 'block';
   } else {
     resultText.textContent = 'Oops! Try again.';
@@ -74,21 +76,24 @@ function checkAnswer() {
   }
 }
 
+function updateScore() {
+  scoreText.textContent = `Score: ${score}`;
+}
+
 function nextRiddle() {
-    currentRiddleIndex++;
-    if (currentRiddleIndex < riddles.length) {
-      displayRiddle();
-      nextButton.style.display = 'none'; // Hide next button after displaying next riddle
-      skipButton.style.display = 'inline-block'; // Hide skip button as well
-    } else {
-      riddleText.textContent = 'Congratulations! You have completed all riddles.';
-      answerInput.style.display = 'none';
-      submitButton.style.display = 'none';
-      nextButton.style.display = 'none';
-      skipButton.style.display = 'inline-block'; // Hide skip button as well
-    }
+  currentRiddleIndex++;
+  if (currentRiddleIndex < riddles.length) {
+    displayRiddle();
+    nextButton.style.display = 'none'; // Hide next button after displaying next riddle
+    skipButton.style.display = 'inline-block'; // Hide skip button as well
+  } else {
+    riddleText.textContent = 'Congratulations! You have completed all riddles.';
+    answerInput.style.display = 'none';
+    submitButton.style.display = 'none';
+    nextButton.style.display = 'none';
+    skipButton.style.display = 'none'; // Hide skip button as well
   }
-  
+}
 
 submitButton.addEventListener('click', checkAnswer);
 nextButton.addEventListener('click', nextRiddle);
